@@ -7,8 +7,13 @@
 	<!-- 1. select로 모든 학생 정보 불러오기 -->
 	<select id="findAll" resultType = "StudentDTO">
 		select student_no as stuNo, student_name as stuName, 
-				student_ssn as stuSsn, student_address as stuAddress, 
-				DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, absence_yn as absYn
+				<!-- 주민번호 뒤 첫자리만 보여주고 이후는 * 처리 -->
+				concat(substr(student_ssn,1,8),'******') as stuSsn, 
+				<!-- 주소는 10글자만 보여주고 이후에는 ... 추가-->
+				concat(substr(student_address,1,10),'...') as stuAddress, 
+				<!-- 날짜 포맷 Y/m/d 맞춰 출력 -->
+				DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
+				absence_yn as absYn
 		from tb_student
 	</select>
 

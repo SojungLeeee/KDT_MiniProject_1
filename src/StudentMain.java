@@ -39,6 +39,7 @@ public class StudentMain {
 							studentDTO.getEntDate(),studentDTO.getAbsYn());
 					System.out.println();
 				}
+				//전체 학생 수 출력
 				System.out.println("총 학생수 : " + list.size()+" 명");
 			}
 			else if ("2".equals(input_num)) {
