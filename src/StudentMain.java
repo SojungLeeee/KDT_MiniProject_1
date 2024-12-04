@@ -21,6 +21,7 @@ public class StudentMain {
 			System.out.println("\t [학생 정보 관리 메뉴]");
 			System.out.println("*****************************************");
 			System.out.println("1. 전체 학생 목록");
+			System.out.println("2. 학생 이름 검색");
 			System.out.println("0. 종료");
 			System.out.println("*****************************************");
 			System.out.printf("메뉴 입력 => ");
@@ -43,7 +44,23 @@ public class StudentMain {
 				System.out.println("총 학생수 : " + list.size()+" 명");
 			}
 			else if ("2".equals(input_num)) {
-				System.out.println("2번 클릭");
+				System.out.printf("검색할 학생명을 입력하시오 => ");
+				String StuName = scan.next();
+				List<StudentDTO> list = service.findByLikeStuName(StuName);
+				
+				System.out.println("======================================================================");
+				System.out.println("학번 \t 이름 \t 주민번호 \t\t 주소 \t\t 입학년도 \t\t 휴학여부");
+				System.out.println("----------------------------------------------------------------------");
+				
+				for (StudentDTO studentDTO : list) {
+					System.out.printf("%s\t%s\t%s\t%s\t%s\t%c",
+							studentDTO.getStuNo(),studentDTO.getStuName(),
+							studentDTO.getStuSsn(),studentDTO.getStuAddress(),
+							studentDTO.getEntDate(),studentDTO.getAbsYn());
+					System.out.println();
+				}
+				//전체 학생 수 출력
+				System.out.println("총 학생수 : " + list.size()+" 명");
 			}
 			else {
 				scan.close();

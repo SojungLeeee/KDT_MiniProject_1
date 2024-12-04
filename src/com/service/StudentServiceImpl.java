@@ -29,4 +29,16 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public List<StudentDTO> findByLikeStuName(String stuName) {
+		List<StudentDTO> list = null;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			list = dao.findByLikeStuName(session, stuName);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
 }

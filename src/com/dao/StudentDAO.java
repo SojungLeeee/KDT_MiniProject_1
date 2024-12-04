@@ -16,4 +16,9 @@ public class StudentDAO {
 		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findAll");
 		return list;
 	}
+	
+	public List<StudentDTO> findByLikeStuName(SqlSession session, String stuName){
+		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByLikeStuName",stuName);
+		return list;
+	}
 }

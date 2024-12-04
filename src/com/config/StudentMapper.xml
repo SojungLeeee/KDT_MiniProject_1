@@ -4,18 +4,35 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.config.StudentMapper">
 
+	<!-- 테이블을 update로 수정시키는 것이 아니라 select 하여 보일때 가공하여 보이기-->
 	<!-- 1. select로 모든 학생 정보 불러오기 -->
 	<select id="findAll" resultType = "StudentDTO">
 		select student_no as stuNo, student_name as stuName, 
-				<!-- 주민번호 뒤 첫자리만 보여주고 이후는 * 처리 -->
-				concat(substr(student_ssn,1,8),'******') as stuSsn, 
-				<!-- 주소는 10글자만 보여주고 이후에는 ... 추가-->
-				concat(substr(student_address,1,10),'...') as stuAddress, 
-				<!-- 날짜 포맷 Y/m/d 맞춰 출력 -->
-				DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
-				absence_yn as absYn
+			<!-- 주민번호 뒤 첫자리만 보여주고 이후는 * 처리 -->
+			concat(substr(student_ssn,1,8),'******') as stuSsn, 
+			<!-- 주소는 10글자만 보여주고 이후에는 ... 추가-->
+			concat(substr(student_address,1,10),'...') as stuAddress, 
+			<!-- 날짜 포맷 Y/m/d 맞춰 출력 -->
+			DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
+			absence_yn as absYn
 		from tb_student
 	</select>
+	
+	<!-- 2. select로 입력된 이름을 포함하는 사람들 select 하기 -->
+	<select id="findByLikeStuName" resultType="StudentDTO">
+		select student_no as stuNo, student_name as stuName, 
+			<!-- 주민번호 뒤 첫자리만 보여주고 이후는 * 처리 -->
+			concat(substr(student_ssn,1,8),'******') as stuSsn, 
+			<!-- 주소는 10글자만 보여주고 이후에는 ... 추가, 주소가 없으면 ***주소 미상*** -->
+			<!-- if(조건문,참일때,거짓일때)-->
+			IF(student_address is null, '***주소 미상***', concat(substr(student_address,1,10),'...')) as stuAddress, 
+			<!-- 날짜 포맷 Y/m/d 맞춰 출력 -->
+			DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
+			absence_yn as absYn
+		from tb_student
+		where student_name LIKE concat('%',#{student_name},'%')
+	</select>
+	
 
   
 </mapper>
