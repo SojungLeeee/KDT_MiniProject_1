@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.config.MySqlSessionFactory;
 import com.dto.StudentDTO;
 
 // DAO (Data Access Object) 패턴
@@ -25,6 +26,11 @@ public class StudentDAO {
 	
 	public List<StudentDTO> findByEntDate(SqlSession session, HashMap<String, String> map){
 		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByEntDate",map);
+		return list;
+	}
+	
+	public List<StudentDTO> findByStuNo(SqlSession session, List<String> noList) {
+		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByStuNo",noList);
 		return list;
 	}
 

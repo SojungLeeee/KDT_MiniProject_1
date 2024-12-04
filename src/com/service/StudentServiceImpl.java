@@ -54,6 +54,18 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public List<StudentDTO> findByStuNo(List<String> noList) {
+		List<StudentDTO> list = null;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			list = dao.findByStuNo(session, noList);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
 
 
 }

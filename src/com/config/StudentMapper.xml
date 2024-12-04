@@ -45,8 +45,30 @@
 			DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
 			absence_yn as absYn
 		from tb_student
+		<!-- MyBatis는 HashMap에서 키 값을 사용하여 값을 참조 -->
 		where substr(entrance_date,1,4) between #{StartYear} and #{EndYear}
 		order by entrance_date desc <!-- 입학년도 기준 내림차순 정렬 -->
+	</select>
+	
+	
+	<!-- 4. 학번을 , 를 기준으로 나누고 select 하기 -->
+	<select id="findByStuNo" resultType="StudentDTO" parameterType="arraylist">
+		select student_no as stuNo, student_name as stuName, 
+			<!-- 주민번호 뒤 첫자리만 보여주고 이후는 * 처리 -->
+			concat(substr(student_ssn,1,8),'******') as stuSsn, 
+			<!-- 주소는 10글자만 보여주고 이후에는 ... 추가, 주소가 없으면 ***주소 미상*** -->
+			<!-- if(조건문,참일때,거짓일때)-->
+			IF(student_address is null, '***주소 미상***', concat(substr(student_address,1,10),'...')) as stuAddress, 
+			<!-- 날짜 포맷 Y/m/d 맞춰 출력 -->
+			DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, 
+			absence_yn as absYn
+		from tb_student
+		<where>
+			student_no IN
+			<foreach item="item" collection="list" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
 	</select>
 
   
