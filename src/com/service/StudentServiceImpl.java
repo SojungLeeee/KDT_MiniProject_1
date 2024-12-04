@@ -66,6 +66,19 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public int UpdateAbsYn(List<String> noList) {
+		int updateNum = 0;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			updateNum = dao.UpdateAbsYn(session, noList);
+			session.commit();
+		} finally {
+			session.close();
+		}
+		return updateNum;
+	}
+
 
 
 }

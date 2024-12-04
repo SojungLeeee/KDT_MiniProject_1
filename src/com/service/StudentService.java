@@ -16,4 +16,6 @@ public interface StudentService {
 	public abstract List<StudentDTO> findByLikeStuName(String stuName);
 	public abstract List<StudentDTO> findByEntDate(HashMap<String, String> map);
 	public abstract List<StudentDTO> findByStuNo(List<String> noList);
+
+	public abstract int UpdateAbsYn(List<String> noList);
 }

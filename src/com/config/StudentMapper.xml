@@ -70,6 +70,17 @@
 			</foreach>
 		</where>
 	</select>
+	
+	<!-- 5. 학생 휴학 일괄 수정, 학번을 받고 , 를 기준으로 나눈후 수정 -->
+	<update id="UpdateAbsYn" parameterType="arraylist">
+		update tb_student set absence_yn='Y'
+		<where>
+			student_no IN
+			<foreach item="item" collection="list" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
+	</update>
 
   
 </mapper>

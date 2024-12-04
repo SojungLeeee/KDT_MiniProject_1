@@ -27,6 +27,7 @@ public class StudentMain {
 			System.out.println("2. 학생 이름 검색");
 			System.out.println("3. 학생 입학년도 범위 검색");
 			System.out.println("4. 학생 학번으로 다중 검색 (쉼표 구분자)");
+			System.out.println("5. 학생 휴학 일괄 수정");
 			System.out.println("0. 종료");
 			System.out.println("*****************************************");
 			System.out.printf("메뉴 입력 => ");
@@ -114,6 +115,23 @@ public class StudentMain {
 				System.out.println("총 학생수 : " + list.size()+" 명");
 
 
+			} else if ("5".equals(input_num)) {
+				System.out.printf("수정할 학생의 학번을 입력하시오 => ");
+				String multiStuno = scan.next();
+			    String [] StuNos = multiStuno.split(",");
+			    List<String> noList = new ArrayList<String>();
+			    //학번을 크기만큼 noList에 추가시키기
+			    for(int i=0; i<StuNos.length; i++) {
+			    	noList.add(StuNos[i]);
+			    } //이 noList가 넘겨줄 파라미터가 됨
+			    
+			    int updateNum = service.UpdateAbsYn(noList);
+			    
+				System.out.println("======================================================================");
+				System.out.println("학번 \t 이름 \t 주민번호 \t\t 주소 \t\t 입학년도 \t\t 휴학여부");
+				System.out.println("----------------------------------------------------------------------");
+				//변경 수 출력
+				System.out.println("총 변경된 학생수 : "+updateNum+" 명");
 			}
 			else {
 				scan.close();

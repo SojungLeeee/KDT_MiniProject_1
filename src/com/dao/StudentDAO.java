@@ -33,5 +33,10 @@ public class StudentDAO {
 		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByStuNo",noList);
 		return list;
 	}
+	
+	public int UpdateAbsYn(SqlSession session, List<String> noList) {
+		int updateNum = session.update("com.config.StudentMapper.UpdateAbsYn",noList);
+		return updateNum;
+	}
 
 }
