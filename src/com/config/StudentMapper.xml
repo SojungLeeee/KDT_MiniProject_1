@@ -4,5 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.config.StudentMapper">
 
+	<!-- 1. select로 모든 학생 정보 불러오기 -->
+	<select id="findAll" resultType = "StudentDTO">
+		select student_no as stuNo, student_name as stuName, 
+				student_ssn as stuSsn, student_address as stuAddress, 
+				DATE_FORMAT(entrance_date,'%Y/%m/%d') as entDate, absence_yn as absYn
+		from tb_student
+	</select>
+
   
 </mapper>
