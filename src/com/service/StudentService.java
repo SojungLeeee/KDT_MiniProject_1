@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.dao.StudentDAO;
@@ -13,4 +14,5 @@ public interface StudentService {
 	//메서드명을 Mapper에서 준 id 값으로 주기
 	public abstract List<StudentDTO> findAll();
 	public abstract List<StudentDTO> findByLikeStuName(String stuName);
+	public abstract List<StudentDTO> findByEntDate(HashMap<String, String> map);
 }

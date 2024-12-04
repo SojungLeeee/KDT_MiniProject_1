@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,5 +41,19 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return list;
 	}
+
+	@Override
+	public List<StudentDTO> findByEntDate(HashMap<String, String> map) {
+		List<StudentDTO> list = null;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			list = dao.findByEntDate(session, map);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
+
 
 }

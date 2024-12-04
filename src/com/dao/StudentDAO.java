@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,4 +22,10 @@ public class StudentDAO {
 		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByLikeStuName",stuName);
 		return list;
 	}
+	
+	public List<StudentDTO> findByEntDate(SqlSession session, HashMap<String, String> map){
+		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findByEntDate",map);
+		return list;
+	}
+
 }
