@@ -83,30 +83,6 @@
 	</update>
 	
 	<!-- 6. 학과 인원 수정 -->
-	<!-- resultMap 사용 - join을 위해 사용 -->
-	<resultMap id="userResultMap" type="StudentDTO">
-		<id property="stuNo" column="student_no"/>
-		<result property="stuName" column="student_name"/>
-		<result property="stuSsn" column="student_ssn"/>
-		<result property="stuAddress" column="student_address"/>
-		<result property="entDate" column="entrance_date"/>
-		<result property="absYn" column="absence_yn"/>
-		<result property="coachProfessorNo" column="coach_professor_no"/>
-
-		
-		<!-- tb_department 테이블 정보 저장, 1대1 관계일때 association 사용-->
-		<!-- column은 select 절에서 보이는 컬럼 헤더 값으로 변경해야함 -->
-		<!-- 즉 column에 컬럼 헤더 값이 들어가야 함 -->
-		<association property="department_no" javaType="DepartmentDTO"> 
-			<id property="department_no" column="department_no"/> 
-			<result property="department_name" column="department_name"/> 
-			<result property="category" column="category"/> 
-			<result property="open_yn" column="open_yn"/>
-			<result property="capacity" column="capacity"/> 
-		</association> 
-		
-	</resultMap>	
-	
 	<update id="updateCapacity">
 	    <![CDATA[
 	    update tb_department
@@ -119,6 +95,54 @@
 	        end
 	    ]]>
 	</update>
-
+	
+	<!-- 7. 학생 학점 검색 -->
+	<resultMap id="resultMap" type="StudentDTO">
+	    <!-- 학생 정보 (StudentDTO) -->
+	    <result property="stuNo" column="STUDENT_NO"/>
+	    <result property="departNo" column="DEPARTMENT_NO"/>
+	    <result property="stuName" column="STUDENT_NAME"/>
+	    <result property="stuSsn" column="STUDENT_SSN"/>
+	    <result property="stuAddress" column="STUDENT_ADDRESS"/>
+	    <result property="entDate" column="ENTRANCE_DATE"/>
+	    <result property="absYn" column="ABSENCE_YN"/>
+	    <result property="coachProfessorNo" column="COACH_PROFESSOR_NO"/>
+	
+	    <!-- 성적 정보 (GradeDTO) 1:N 관계 -->
+	    <collection property="gradeList" ofType="GradeDTO">
+	        <result property="term_no" column="TERM_NO"/>
+	        <result property="student_no" column="STUDENT_NO"/>
+	        <result property="point" column="POINT"/>
+	        <result property="grade" column="학점"/>
+	        
+	        <!-- 수업 정보 (ClassesDTO) 1:1 관계 -->
+	        <association property="classes" javaType="ClassesDTO">
+	            <result property="class_no" column="CLASS_NO"/>
+	            <result property="department_no" column="CLASS_DEPARTMENT_NO"/>
+	            <result property="preattending_class_no" column="PREATTENDING_CLASS_NO"/>
+	            <result property="class_name" column="CLASS_NAME"/>
+	            <result property="class_type" column="CLASS_TYPE"/>
+	        </association>
+	    </collection>
+	</resultMap>
+	
+	<select id="findGrade" resultType="StudentDTO" resultMap="resultMap">
+		<![CDATA[
+		select g.term_no, s.student_no, s.student_name, c.CLASS_NAME, g.point,
+        CASE
+            WHEN g.point <= 1.9 AND g.point >= 0 THEN 'F 학점'
+            WHEN g.point <= 2.9 THEN 'D 학점'
+            WHEN g.point <= 3.4 THEN 'C 학점'
+            WHEN g.point <= 3.9 THEN 'B 학점'
+            WHEN g.point >= 4 THEN 'A 학점'
+            ELSE '잘못된 값'
+        END AS 학점
+		from tb_student s join tb_grade g on s.student_no = g.student_no
+		join tb_class c on g.CLASS_NO=c.CLASS_NO
+		where s.student_no=#{student_no}
+		order by term_no
+		]]>
+	</select>
+	
   
 </mapper>

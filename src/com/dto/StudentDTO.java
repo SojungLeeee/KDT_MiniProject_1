@@ -6,7 +6,7 @@ import java.util.List;
 // 레이어 간의 데이터 전달 목적
 //emp 테이블의 레코드 저장
 public class StudentDTO {
-	//private String stuNo; //실제로 student_no
+	private String stuNo; //실제로 student_no
 	private String departNo; //실제로 department_no
 	private String stuName; //실제로 student_name
 	private String stuSsn; //실제로 student_ssn
@@ -21,12 +21,13 @@ public class StudentDTO {
 	}
 	
 	//1대n 관계
-	List<GradeDTO> tb_grade;
+	List<GradeDTO> gradeList;
 
 
-	public StudentDTO(String departNo, String stuName, String stuSsn, String stuAddress, String entDate, char absYn,
-			String coachProfessorNo, List<GradeDTO> tb_grade) {
+	public StudentDTO(String stuNo, String departNo, String stuName, String stuSsn, String stuAddress, String entDate,
+			char absYn, String coachProfessorNo, List<GradeDTO> gradeList) {
 		super();
+		this.stuNo = stuNo;
 		this.departNo = departNo;
 		this.stuName = stuName;
 		this.stuSsn = stuSsn;
@@ -34,7 +35,17 @@ public class StudentDTO {
 		this.entDate = entDate;
 		this.absYn = absYn;
 		this.coachProfessorNo = coachProfessorNo;
-		this.tb_grade = tb_grade;
+		this.gradeList = gradeList;
+	}
+
+
+	public String getStuNo() {
+		return stuNo;
+	}
+
+
+	public void setStuNo(String stuNo) {
+		this.stuNo = stuNo;
 	}
 
 
@@ -108,21 +119,23 @@ public class StudentDTO {
 	}
 
 
-	public List<GradeDTO> getTb_grade() {
-		return tb_grade;
+	public List<GradeDTO> getGradeList() {
+		return gradeList;
 	}
 
 
-	public void setTb_grade(List<GradeDTO> tb_grade) {
-		this.tb_grade = tb_grade;
+	public void setGradeList(List<GradeDTO> gradeList) {
+		this.gradeList = gradeList;
 	}
 
 
 	@Override
 	public String toString() {
-		return "StudentDTO [departNo=" + departNo + ", stuName=" + stuName + ", stuSsn=" + stuSsn + ", stuAddress="
-				+ stuAddress + ", entDate=" + entDate + ", absYn=" + absYn + ", coachProfessorNo=" + coachProfessorNo
-				+ ", tb_grade=" + tb_grade + "]";
+		return "StudentDTO [stuNo=" + stuNo + ", departNo=" + departNo + ", stuName=" + stuName + ", stuSsn=" + stuSsn
+				+ ", stuAddress=" + stuAddress + ", entDate=" + entDate + ", absYn=" + absYn + ", coachProfessorNo="
+				+ coachProfessorNo + ", gradeList=" + gradeList + "]";
 	}
+
+	
 
 }

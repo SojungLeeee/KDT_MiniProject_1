@@ -44,4 +44,8 @@ public class StudentDAO {
 		return updateCapacityNum;
 	}
 
+	public List<StudentDTO> findGrade(SqlSession session,String stuNo) {
+		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findGrade",stuNo);
+		return list;
+	}
 }

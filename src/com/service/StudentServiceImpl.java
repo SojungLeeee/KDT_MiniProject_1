@@ -92,6 +92,18 @@ public class StudentServiceImpl implements StudentService {
 		return updateCapacityNum;
 	}
 
+	@Override
+	public List<StudentDTO> findGrade(String stuNo) {
+		List<StudentDTO> list = null;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			list = dao.findGrade(session,stuNo);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
 
 
 

@@ -19,4 +19,6 @@ public interface StudentService {
 
 	public abstract int UpdateAbsYn(List<String> noList);
 	public abstract int updateCapacity();
+	
+	public abstract List<StudentDTO> findGrade(String stuNo);
 }

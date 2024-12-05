@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.dao.StudentDAO;
+import com.dto.ClassesDTO;
+import com.dto.GradeDTO;
 import com.dto.StudentDTO;
 import com.service.StudentService;
 import com.service.StudentServiceImpl;
@@ -129,9 +131,9 @@ public class StudentMain {
 			    
 			    int updateNum = service.UpdateAbsYn(noList);
 			    
-				System.out.println("======================================================================");
+				System.out.println("================================================================");
 				System.out.println("학번 \t 이름 \t 주민번호 \t\t 주소 \t\t 입학년도 \t\t 휴학여부");
-				System.out.println("----------------------------------------------------------------------");
+				System.out.println("----------------------------------------------------------------");
 				//변경 수 출력
 				System.out.println("총 변경된 학생수 : "+updateNum+" 명");
 			} else if ("6".equals(input_num)) {
@@ -140,6 +142,19 @@ public class StudentMain {
 			} else if ("7".equals(input_num)) {
 				System.out.printf("학생의 학번을 입력하시오 => ");
 				String stuNo = scan.next();
+				System.out.println("================================================================================");
+				System.out.println("학기 \t 학번 \t\t 이름 \t\t 과목명 \t\t 점수 \t 학점");
+				System.out.println("--------------------------------------------------------------------------------");
+				List<StudentDTO> list = service.findGrade(stuNo);
+
+			    for (StudentDTO studentDTO : list) {
+			        for (GradeDTO gradeDTO : studentDTO.getGradeList()) {
+			            // 각 학기의 학번, 이름, 학기, 과목명, 점수, 등급 출력
+			            System.out.printf("%s \t %s \t %s \t\t %s \t %.2f \t%s\n", 
+			                    gradeDTO.getTerm_no(), studentDTO.getStuNo(), studentDTO.getStuName(),
+			                    gradeDTO.getClasses().getClass_name(), gradeDTO.getPoint(),gradeDTO.getGrade());
+			        }
+			    }
 			}
 			else {
 				scan.close();
