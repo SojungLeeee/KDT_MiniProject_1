@@ -38,5 +38,10 @@ public class StudentDAO {
 		int updateNum = session.update("com.config.StudentMapper.UpdateAbsYn",noList);
 		return updateNum;
 	}
+	
+	public int updateCapacity(SqlSession session) {
+		int updateCapacityNum = session.update("com.config.StudentMapper.updateCapacity");
+		return updateCapacityNum;
+	}
 
 }

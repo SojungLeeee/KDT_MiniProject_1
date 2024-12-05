@@ -79,6 +79,21 @@ public class StudentServiceImpl implements StudentService {
 		return updateNum;
 	}
 
+	@Override
+	public int updateCapacity() {
+		int updateCapacityNum = 0;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			updateCapacityNum = dao.updateCapacity(session);
+			session.commit();
+		} finally {
+			session.close();
+		}
+		return updateCapacityNum;
+	}
+
+
+
 
 
 }

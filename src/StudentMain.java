@@ -28,6 +28,8 @@ public class StudentMain {
 			System.out.println("3. 학생 입학년도 범위 검색");
 			System.out.println("4. 학생 학번으로 다중 검색 (쉼표 구분자)");
 			System.out.println("5. 학생 휴학 일괄 수정");
+			System.out.println("6. 학과 정원 일괄 수정");
+			System.out.println("7. 학생 학점 검색");
 			System.out.println("0. 종료");
 			System.out.println("*****************************************");
 			System.out.printf("메뉴 입력 => ");
@@ -132,6 +134,12 @@ public class StudentMain {
 				System.out.println("----------------------------------------------------------------------");
 				//변경 수 출력
 				System.out.println("총 변경된 학생수 : "+updateNum+" 명");
+			} else if ("6".equals(input_num)) {
+				int updateCapacityNum = service.updateCapacity();
+				System.out.println("총 변경된 학생수 : "+updateCapacityNum+" 명");
+			} else if ("7".equals(input_num)) {
+				System.out.printf("학생의 학번을 입력하시오 => ");
+				String stuNo = scan.next();
 			}
 			else {
 				scan.close();

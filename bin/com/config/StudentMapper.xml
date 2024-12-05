@@ -81,6 +81,44 @@
 			</foreach>
 		</where>
 	</update>
+	
+	<!-- 6. 학과 인원 수정 -->
+	<!-- resultMap 사용 - join을 위해 사용 -->
+	<resultMap id="userResultMap" type="StudentDTO">
+		<id property="stuNo" column="student_no"/>
+		<result property="stuName" column="student_name"/>
+		<result property="stuSsn" column="student_ssn"/>
+		<result property="stuAddress" column="student_address"/>
+		<result property="entDate" column="entrance_date"/>
+		<result property="absYn" column="absence_yn"/>
+		<result property="coachProfessorNo" column="coach_professor_no"/>
+
+		
+		<!-- tb_department 테이블 정보 저장, 1대1 관계일때 association 사용-->
+		<!-- column은 select 절에서 보이는 컬럼 헤더 값으로 변경해야함 -->
+		<!-- 즉 column에 컬럼 헤더 값이 들어가야 함 -->
+		<association property="department_no" javaType="DepartmentDTO"> 
+			<id property="department_no" column="department_no"/> 
+			<result property="department_name" column="department_name"/> 
+			<result property="category" column="category"/> 
+			<result property="open_yn" column="open_yn"/>
+			<result property="capacity" column="capacity"/> 
+		</association> 
+		
+	</resultMap>	
+	
+	<update id="updateCapacity">
+	    <![CDATA[
+	    update tb_department
+	    set capacity =
+	        case
+	            when capacity <= 20 then capacity + 5
+	            when capacity <= 25 then capacity + 4
+	            when capacity <= 30 then capacity + 3
+	            else capacity
+	        end
+	    ]]>
+	</update>
 
   
 </mapper>

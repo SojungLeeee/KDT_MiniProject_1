@@ -11,6 +11,8 @@
 	<!-- DTO 별칭 -->
 	<typeAliases>
 		<typeAlias alias="StudentDTO" type="com.dto.StudentDTO" />
+		<typeAlias alias="GradeDTO" type="com.dto.GradeDTO" />
+		<typeAlias alias="ClassesDTO" type="com.dto.ClassesDTO" />
 	</typeAliases>
 
   <environments default="development">
