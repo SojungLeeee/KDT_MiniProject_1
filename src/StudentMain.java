@@ -135,9 +135,6 @@ public class StudentMain {
 			    
 			    int updateNum = service.UpdateAbsYn(noList);
 			    
-				System.out.println("================================================================");
-				System.out.println("학번 \t 이름 \t 주민번호 \t\t 주소 \t\t 입학년도 \t\t 휴학여부");
-				System.out.println("----------------------------------------------------------------");
 				//변경 수 출력
 				System.out.println("총 변경된 학생수 : "+updateNum+" 명");
 			} else if ("6".equals(input_num)) {
