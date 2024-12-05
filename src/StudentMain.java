@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.config.MySqlSessionFactory;
 import com.dao.StudentDAO;
 import com.dto.ClassesDTO;
 import com.dto.GradeDTO;
@@ -32,6 +35,7 @@ public class StudentMain {
 			System.out.println("5. 학생 휴학 일괄 수정");
 			System.out.println("6. 학과 정원 일괄 수정");
 			System.out.println("7. 학생 학점 검색");
+			System.out.println("8. 전체 학생 목록 - 페이징");
 			System.out.println("0. 종료");
 			System.out.println("*****************************************");
 			System.out.printf("메뉴 입력 => ");
@@ -155,15 +159,83 @@ public class StudentMain {
 			                    gradeDTO.getClasses().getClass_name(), gradeDTO.getPoint(),gradeDTO.getGrade());
 			        }
 			    }
-			}
-			else {
+			} else if ("8".equals(input_num)) {
+				System.out.printf("페이지당 보여줄 레코드 개수를 입력하시오 => ");
+				int perPage = scan.nextInt();
+				int curPage = 1;
+				int skip = (curPage-1)*perPage; //skip의 개수
+				
+				List<StudentDTO> total = service.findAll();
+				List<StudentDTO> list = service.paging(skip, perPage);
+				for (StudentDTO studentDTO : list) {
+					System.out.printf("%s\t%s\t%s\t%s\t%s\t%c",
+							studentDTO.getStuNo(),studentDTO.getStuName(),
+							studentDTO.getStuSsn(),studentDTO.getStuAddress(),
+							studentDTO.getEntDate(),studentDTO.getAbsYn());
+					System.out.println();
+				}
+				//연산 시 소수점이 나오면 totalPage 값 ++ 해주기
+				int totalPage = total.size()/perPage;
+				if(total.size()%perPage!=0) {
+					totalPage++;
+				}
+				// 현재페이지/전체페이지
+				System.out.println(curPage+"/"+totalPage);
+				System.out.println("N:다음 페이지 B:이전 페이지 Q:메인화면");
+				
+				String page = null;
+				while(true) {
+					page = scan.next();
+					if("N".equals(page) || "n".equals(page)){
+						if(curPage>=totalPage) { //최대 페이지 수를 넘었을때
+							curPage=totalPage;
+						}
+						else {
+						curPage+=1;}
+						skip=(curPage-1)*perPage;
+						list = service.paging(skip, perPage);
+						for (StudentDTO studentDTO : list) {
+							System.out.printf("%s\t%s\t%s\t%s\t%s\t%c",
+									studentDTO.getStuNo(),studentDTO.getStuName(),
+									studentDTO.getStuSsn(),studentDTO.getStuAddress(),
+									studentDTO.getEntDate(),studentDTO.getAbsYn());
+							System.out.println();
+						}
+
+						// 현재페이지/전체페이지
+						System.out.println(curPage+"/"+totalPage);
+						System.out.println("N:다음 페이지 B:이전 페이지 Q:메인화면");
+					} else if("B".equals(page) || "b".equals(page)){
+						if(curPage<=1) { //curPage가 1보다 작아지면 curPage를 1로 고정
+							curPage=1;
+						}
+						else {
+							curPage-=1; }
+						skip=(curPage-1)*perPage;
+						list = service.paging(skip, perPage);
+						for (StudentDTO studentDTO : list) {
+							System.out.printf("%s\t%s\t%s\t%s\t%s\t%c",
+									studentDTO.getStuNo(),studentDTO.getStuName(),
+									studentDTO.getStuSsn(),studentDTO.getStuAddress(),
+									studentDTO.getEntDate(),studentDTO.getAbsYn());
+							System.out.println();
+						}
+
+						// 현재페이지/전체페이지
+						System.out.println(curPage+"/"+totalPage);
+						System.out.println("N:다음 페이지 B:이전 페이지 Q:메인화면");
+						} else if("Q".equals(page) || "q".equals(page)){
+							break; //Q나 q 누르면 빠져나가기
+						} else { //n,b 외 다른 버튼 누르면
+						 System.out.println("N(n), B(b), Q(q) 중 하나를 입력하세요.");
+						 System.out.println("N:다음 페이지 B:이전 페이지 Q:메인화면");
+					}
+				}		
+			} else {
 				scan.close();
 				System.out.println("프로그램 종료");
 				System.exit(0); //프로그램 종료
-			}
-		
+			}	
 		} //end while
-
 	}
-
 }

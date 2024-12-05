@@ -21,4 +21,5 @@ public interface StudentService {
 	public abstract int updateCapacity();
 	
 	public abstract List<StudentDTO> findGrade(String stuNo);
+	public abstract List<StudentDTO> paging(int skip,int perPage);
 }

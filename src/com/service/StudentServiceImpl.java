@@ -104,6 +104,18 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public List<StudentDTO> paging(int skip,int perPage) {
+		List<StudentDTO> list = null;
+		SqlSession session = MySqlSessionFactory.getSession();
+		try {
+			list = dao.paging(session,skip,perPage);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
 
 
 

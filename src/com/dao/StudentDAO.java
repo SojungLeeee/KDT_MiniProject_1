@@ -3,6 +3,7 @@ package com.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.config.MySqlSessionFactory;
@@ -46,6 +47,11 @@ public class StudentDAO {
 
 	public List<StudentDTO> findGrade(SqlSession session,String stuNo) {
 		List<StudentDTO> list = session.selectList("com.config.StudentMapper.findGrade",stuNo);
+		return list;
+	}
+	
+	public List<StudentDTO> paging(SqlSession session, int skip,int perPage) {
+		List<StudentDTO> list = session.selectList("com.config.StudentMapper.paging",null,new RowBounds(skip,perPage));
 		return list;
 	}
 }
